@@ -88,6 +88,7 @@ ruby_block "sample-data" do
   action :create
   
   not_if { node['vagrant_magento']['sample_data']['install'] == false }
+  not_if { File.exists?("#{node['vagrant_magento']['mage']['dir']}/app/etc/local.xml") }
   only_if { `which php` != false }
   
   notifies :create, "remote_file[#{Chef::Config[:file_cache_path]}/magento-sample-data.tar.gz]", :immediately
